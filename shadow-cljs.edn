@@ -1,0 +1,10 @@
+;; shadow-cljs configuration
+{:deps {:aliases [:dev]}
+ :dev-http {8000 "public"}
+ :builds
+ {:main {:target :browser
+         :output-dir "public/js"
+         :asset-path "/js"
+         :module-hash-names true
+         :modules {:main {:entries [wordle.core2]}}
+         :build-hooks [(shadow.cljs.build-report/hook)]}}}
