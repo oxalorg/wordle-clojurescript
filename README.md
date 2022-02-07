@@ -1,6 +1,11 @@
 # wordle-clojurescript
 
+
+## Video
+
 Watch the youtube video here: https://www.youtube.com/watch?v=QEEPXuR5wLk
+
+## Develop
 
 First run `npm i`
 
@@ -11,3 +16,7 @@ To run this from the command line
 ```
 npx shadow-cljs watch main
 ```
+
+## Demo
+
+https://babashka.org/scittle/wordle.html thanks to @borkdude
