@@ -1,4 +1,5 @@
-(ns wordle.core2)
+(ns wordle.core2
+  (:require [lambdaisland.thicc :as dom]))
 
 (def board-state (atom []))
 (def counter (atom 0))
@@ -8,19 +9,17 @@
 (defn write-letter [cell letter]
   (set! (.-textContent cell) letter))
 
-(defn make-cell []
-  (let [cell (js/document.createElement "div")]
-    (set! (.-className cell) "cell")
-    cell))
+(declare user-input)
 
 (defn make-board [n]
-  (let [board (js/document.createElement "div")]
-    (set! (.-className board) "board")
-    ;; adding cells
-    (doseq [_ (range n)]
-      (let [cell (make-cell)]
-        (swap! board-state conj cell)
-        (.appendChild board cell)))
+  (let [board (dom/dom
+               [:div.board
+                {:on-keydown
+                 (fn [e]
+                   (user-input (.toLowerCase (.-key e))))}
+                (for [_ (range n)]
+                  [:div.cell])])]
+    (reset! board-state (vec (dom/query-all board ".cell")))
     board))
 
 (defn get-letter [cell]
@@ -68,30 +67,22 @@
       (do
         (when (check-solution (subvec @board-state start end))
           (js/alert "You won"))
-        (swap! attempt inc))
+        (swap! attempt inc)))))
 
-      )))
+(defn ^:dev/after-load reload []
+  (dom/replace-child (dom/el-by-id "app")
+                     (dom/query ".board")
+                     (make-board 30)))
 
-(defonce listener (atom nil))
 
-(defn ^:dev/before-load unmount []
-  (js/document.removeEventListener "keydown" @listener)
-  (let [app (js/document.getElementById "app")]
-    (set! (.-innerHTML app) "")))
+(defn ^export mount []
+  (conj! (dom/el-by-id "app")
+         (make-board 30))
+  (js/document.addEventListener
+   "keydown"
+   (fn [e]
+     (user-input (.toLowerCase (.-key e))))))
 
-(defn mount []
-  (let [app (js/document.getElementById "app")
-        board (make-board 30)
-        input-listener
-        (fn [e]
-          (user-input (.toLowerCase(.-key e))))]
-    (.appendChild app board)
-    (reset! listener input-listener)
-    (js/document.addEventListener
-     "keydown"
-     input-listener)))
-
-(mount)
 
 (comment
   (do
