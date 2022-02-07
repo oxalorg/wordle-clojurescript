@@ -64,7 +64,7 @@
         (write-letter (nth @board-state @counter) ""))
 
       (and (= key "enter")
-           (zero? (mod @counter 5)))
+           (= @counter end))
       (do
         (when (check-solution (subvec @board-state start end))
           (js/alert "You won"))
