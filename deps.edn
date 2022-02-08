@@ -1,5 +1,7 @@
 {:paths ["src" "resources"]
- :deps {org.clojure/clojurescript {:mvn/version "1.10.914"}}
+ :deps {org.clojure/clojurescript {:mvn/version "1.10.914"}
+        com.lambdaisland/webstuff {:git/url "https://github.com/lambdaisland/webstuff"
+                                   :git/sha "5d5669e7f7829c65fdd00b19ef826565ce41b7ea"}}
 
  :aliases
  {:dev

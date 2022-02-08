@@ -6,5 +6,5 @@
          :output-dir "public/js"
          :asset-path "/js"
          :module-hash-names true
-         :modules {:main {:entries [wordle.core2]}}
+         :modules {:main {:entries [wordle.reactive]}}
          :build-hooks [(shadow.cljs.build-report/hook)]}}}
